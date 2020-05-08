@@ -1,0 +1,32 @@
+<! DOCTYPE html>
+<html>
+<head>
+    <title>Demo Chat Bot ! </title>
+    </head>
+<body>
+    <h1> Votre super site web !</h1>
+    <p> Ce site permet d'essayer le script d'intégration du chat bot ! </p>
+    
+    </body>
+    <footer>
+        <script>
+          window.watsonAssistantChatOptions = {
+              integrationID: "5e888622-87ae-4abd-a067-3c00ddf03b67", // The ID of this integration.
+              region: "eu-de", // The region your integration is hosted in.
+              serviceInstanceID: "2e3d6288-b52b-4257-aa89-fb14267c416c", // The ID of your service instance.
+              onLoad: function(instance) { instance.render(); }
+            };
+          setTimeout(function(){
+            const t=document.createElement('script');
+            t.src="https://web-chat.global.assistant.watson.appdomain.cloud/loadWatsonAssistantChat.js";
+            document.head.appendChild(t);
+          });
+        </script>
+        
+    </footer>
+
+</html>
+
+
+
+

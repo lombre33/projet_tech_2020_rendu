@@ -1,0 +1,1394 @@
+{
+  "intents": [
+    {
+      "intent": "chercherCampus",
+      "examples": [
+        {
+          "text": "Campus"
+        },
+        {
+          "text": "Campus DESPEG"
+        }
+      ],
+      "description": ""
+    },
+    {
+      "intent": "Salles",
+      "examples": [
+        {
+          "text": "l'anfi"
+        },
+        {
+          "text": "l'amphitéatre"
+        },
+        {
+          "text": "ou est l'amphi ?"
+        },
+        {
+          "text": "amphi"
+        },
+        {
+          "text": "Je cherche une salle"
+        },
+        {
+          "text": "Salle"
+        },
+        {
+          "text": "Ou est la salle ?"
+        },
+        {
+          "text": "je cherche un l'amphi"
+        },
+        {
+          "text": "Ou trouver la salle ?"
+        },
+        {
+          "text": "ou la 101 ?"
+        }
+      ],
+      "description": ""
+    },
+    {
+      "intent": "batiment",
+      "examples": [
+        {
+          "text": "Ou est le a21 ?"
+        },
+        {
+          "text": "building"
+        },
+        {
+          "text": "bat"
+        },
+        {
+          "text": "batiment"
+        },
+        {
+          "text": "Bonjour, je cherche le C19"
+        },
+        {
+          "text": "Je cherche le B18"
+        }
+      ],
+      "description": ""
+    }
+  ],
+  "entities": [
+    {
+      "entity": "bat",
+      "values": [
+        {
+          "type": "synonyms",
+          "value": "A21",
+          "synonyms": []
+        },
+        {
+          "type": "synonyms",
+          "value": "A22",
+          "synonyms": []
+        }
+      ],
+      "fuzzy_match": true
+    },
+    {
+      "entity": "salle",
+      "values": [
+        {
+          "type": "synonyms",
+          "value": "103",
+          "synonyms": []
+        },
+        {
+          "type": "synonyms",
+          "value": "102",
+          "synonyms": []
+        },
+        {
+          "type": "synonyms",
+          "value": "101",
+          "synonyms": []
+        },
+        {
+          "type": "synonyms",
+          "value": "201",
+          "synonyms": []
+        }
+      ],
+      "fuzzy_match": true
+    },
+    {
+      "entity": "Campus",
+      "values": [
+        {
+          "type": "synonyms",
+          "value": "Campus inconu",
+          "synonyms": []
+        },
+        {
+          "type": "synonyms",
+          "value": "Campus DESPEG",
+          "synonyms": [
+            "Campus Despeg",
+            "droit",
+            "B4 ",
+            "DESPEG"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "Campus Victoire",
+          "synonyms": [
+            "Victoire",
+            "B2"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "Campus Carreire",
+          "synonyms": [
+            "Carreire"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "Campus recherche approfondie",
+          "synonyms": []
+        },
+        {
+          "type": "synonyms",
+          "value": "Campus ST",
+          "synonyms": [
+            "ST ",
+            "CampusST",
+            "Science et Technologies"
+          ]
+        }
+      ],
+      "fuzzy_match": true
+    },
+    {
+      "entity": "double",
+      "values": [
+        {
+          "type": "synonyms",
+          "value": "101",
+          "synonyms": []
+        }
+      ],
+      "fuzzy_match": true
+    }
+  ],
+  "metadata": {
+    "api_version": {
+      "major_version": "v2",
+      "minor_version": "2018-11-08"
+    }
+  },
+  "webhooks": [
+    {
+      "url": "https://eu-gb.functions.cloud.ibm.com/api/v1/web/lombre33%40gmail.com_dev/default/jokes.json",
+      "name": "main_webhook",
+      "headers": []
+    }
+  ],
+  "dialog_nodes": [
+    {
+      "type": "frame",
+      "title": "All set",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "vous avez tout donner !! "
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "node_11_1588792093990",
+      "metadata": {
+        "_customization": {
+          "mcr": false
+        }
+      },
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "condition",
+        "dialog_node": "node_19_1588792093999"
+      },
+      "conditions": "@salle && #Salles",
+      "dialog_node": "node_18_1588792093999",
+      "previous_sibling": "node_34_1588803265495"
+    },
+    {
+      "type": "frame",
+      "title": "Salle reconnue directement",
+      "output": {},
+      "parent": "node_11_1588792093990",
+      "actions": [
+        {
+          "name": "main_webhook",
+          "type": "webhook",
+          "parameters": {
+            "action": [
+              "$salle",
+              "salle"
+            ]
+          },
+          "result_variable": "$webhook_result_1"
+        }
+      ],
+      "metadata": {
+        "_customization": {
+          "mcr": true
+        }
+      },
+      "conditions": "@salle",
+      "dialog_node": "node_34_1588803265495",
+      "previous_sibling": "node_12_1588792093999"
+    },
+    {
+      "type": "standard",
+      "title": "Salles inconnues",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "J'ai compris que vous cherchier une mais je n'ai pas réussit à la trouver dans ma base de donnée, pouvez vous me dire sur quel campus elle se trouve ? "
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          },
+          {
+            "title": "liste des campus ",
+            "options": [
+              {
+                "label": "Campus ST",
+                "value": {
+                  "input": {
+                    "text": "Campus ST"
+                  }
+                }
+              },
+              {
+                "label": "Campus Victoire",
+                "value": {
+                  "input": {
+                    "text": "Campus Victoire"
+                  }
+                }
+              },
+              {
+                "label": "Je ne sais pas ",
+                "value": {
+                  "input": {
+                    "text": "campus inconu"
+                  }
+                }
+              },
+              {
+                "label": "Campus DESPEG",
+                "value": {
+                  "input": {
+                    "text": "Campus DESPEG"
+                  }
+                }
+              }
+            ],
+            "response_type": "option"
+          }
+        ]
+      },
+      "parent": "node_11_1588792093990",
+      "conditions": "#Salles",
+      "dialog_node": "node_26_1588792093999",
+      "previous_sibling": "node_18_1588792093999"
+    },
+    {
+      "type": "frame",
+      "title": "Salle multiple batiment(2)",
+      "output": {},
+      "parent": "node_11_1588792093990",
+      "actions": [
+        {
+          "name": "main_webhook",
+          "type": "webhook",
+          "parameters": {
+            "action": [
+              "$salle",
+              "salle"
+            ]
+          },
+          "result_variable": "$webhook_result_1"
+        }
+      ],
+      "metadata": {
+        "_customization": {
+          "mcr": true
+        }
+      },
+      "conditions": "@double",
+      "dialog_node": "node_12_1588792093999"
+    },
+    {
+      "type": "standard",
+      "title": "Batiment inconu",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "J'ai compris que vous cherchier un batiment mais je n'ai pas réussit à identifier le batiment. Pouvez vous me dire sur quel campus il se trouve ? "
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          },
+          {
+            "title": "liste des campus ",
+            "options": [
+              {
+                "label": "Campus ST",
+                "value": {
+                  "input": {
+                    "text": "Campus ST"
+                  }
+                }
+              },
+              {
+                "label": "Campus Victoire",
+                "value": {
+                  "input": {
+                    "text": "Campus Victoire"
+                  }
+                }
+              },
+              {
+                "label": "Campus DESPEG",
+                "value": {
+                  "input": {
+                    "text": "campus DESPEG"
+                  }
+                }
+              },
+              {
+                "label": "Campus Carreire",
+                "value": {
+                  "input": {
+                    "text": "Campus carreire"
+                  }
+                }
+              },
+              {
+                "label": "Je ne sais pas ",
+                "value": {
+                  "input": {
+                    "text": "Campus inconu "
+                  }
+                }
+              }
+            ],
+            "response_type": "option"
+          }
+        ]
+      },
+      "parent": "node_3_1588780542194",
+      "conditions": "#batiment",
+      "dialog_node": "node_9_1588772588110",
+      "previous_sibling": "node_4_1588774637857"
+    },
+    {
+      "type": "frame",
+      "title": "All set",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": ""
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "node_3_1588780542194",
+      "metadata": {
+        "_customization": {
+          "mcr": false
+        }
+      },
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "condition",
+        "dialog_node": "node_2_1588778082077"
+      },
+      "conditions": "#batiment && @bat",
+      "dialog_node": "node_4_1588774637857",
+      "previous_sibling": "node_5_1588778456597"
+    },
+    {
+      "type": "frame",
+      "title": "batiment request - copy1 - copy1",
+      "output": {},
+      "parent": "node_3_1588780542194",
+      "actions": [
+        {
+          "name": "main_webhook",
+          "type": "webhook",
+          "parameters": {
+            "action": [
+              "$bat",
+              "bat"
+            ]
+          },
+          "result_variable": "$webhook_result_1"
+        }
+      ],
+      "metadata": {
+        "_customization": {
+          "mcr": true
+        }
+      },
+      "conditions": "@bat",
+      "dialog_node": "node_5_1588778456597"
+    },
+    {
+      "type": "response_condition",
+      "output": {
+        "text": {
+          "values": [
+            "L'appel a généré cette erreur : <? output.webhook_error.webhook_result_1 ?>."
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_19_1588792093999",
+      "conditions": "anything_else",
+      "dialog_node": "response_21_1588792093999",
+      "previous_sibling": "response_20_1588792093999"
+    },
+    {
+      "type": "response_condition",
+      "output": {
+        "text": {
+          "values": [
+            "Batiment : <?$webhook_result_1.response.rows.get(0).batiment?> Localisation  : <?$webhook_result_1.response.rows.get(0).localisation?> num Acceuil  : <?$webhook_result_1.response.rows.get(0).acceuil?>\nSalles  : <?$webhook_result_1.response.rows.get(0).salles?>\n\n"
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_19_1588792093999",
+      "conditions": "$webhook_result_1",
+      "dialog_node": "response_20_1588792093999"
+    },
+    {
+      "type": "event_handler",
+      "output": {},
+      "parent": "slot_13_1588792093999",
+      "event_name": "focus",
+      "dialog_node": "handler_15_1588792093999",
+      "previous_sibling": "handler_14_1588792093999"
+    },
+    {
+      "type": "event_handler",
+      "output": {},
+      "parent": "slot_13_1588792093999",
+      "context": {
+        "salle": "@salle"
+      },
+      "conditions": "@salle",
+      "event_name": "input",
+      "dialog_node": "handler_14_1588792093999"
+    },
+    {
+      "type": "slot",
+      "parent": "node_9_1588772588110",
+      "variable": "$bat",
+      "dialog_node": "slot_2_1588776816386",
+      "previous_sibling": "handler_1_1588777751156"
+    },
+    {
+      "type": "event_handler",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Il semblerait que le batiment que vous recherchez n'est pas dans ma base de donnée, savez vous sur quel campus se situe votre batiment ? "
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          },
+          {
+            "title": "Listes des campus",
+            "options": [
+              {
+                "label": "Campus ST",
+                "value": {
+                  "input": {
+                    "text": "Campus ST"
+                  }
+                }
+              },
+              {
+                "label": "Campus Victoire",
+                "value": {
+                  "input": {
+                    "text": "Campus Victoire"
+                  }
+                }
+              }
+            ],
+            "response_type": "option"
+          }
+        ]
+      },
+      "parent": "node_9_1588772588110",
+      "event_name": "focus",
+      "dialog_node": "handler_1_1588777751156"
+    },
+    {
+      "type": "event_handler",
+      "output": {
+        "text": {
+          "values": [
+            "Pouvez me spécifier le batiment que vous cherchez ? "
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "slot_30_1588792093999",
+      "event_name": "focus",
+      "dialog_node": "handler_32_1588792093999",
+      "previous_sibling": "handler_31_1588792093999"
+    },
+    {
+      "type": "event_handler",
+      "output": {},
+      "parent": "slot_30_1588792093999",
+      "context": {
+        "bat": "@bat"
+      },
+      "conditions": "@bat",
+      "event_name": "input",
+      "dialog_node": "handler_31_1588792093999"
+    },
+    {
+      "type": "response_condition",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Il me semble que le batiment que vous recherchez n'est pas sur le campus Science & Technologies. Savez vous sur quelle campus est situé votre batiment ? "
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          },
+          {
+            "title": "",
+            "options": [
+              {
+                "label": "Campus ST",
+                "value": {
+                  "input": {
+                    "text": ""
+                  }
+                }
+              },
+              {
+                "label": "Campus DESPG",
+                "value": {
+                  "input": {
+                    "text": ""
+                  }
+                }
+              },
+              {
+                "label": "Campus Victoire",
+                "value": {
+                  "input": {
+                    "text": ""
+                  }
+                }
+              },
+              {
+                "label": "Campus Carreire",
+                "value": {
+                  "input": {
+                    "text": ""
+                  }
+                }
+              }
+            ],
+            "response_type": "option"
+          }
+        ]
+      },
+      "parent": "node_4_1588774637857",
+      "disabled": true,
+      "dialog_node": "response_1_1588774807194",
+      "previous_sibling": "slot_10_1588778055607"
+    },
+    {
+      "type": "standard",
+      "title": "batiment request - copy1",
+      "output": {},
+      "parent": "node_4_1588774637857",
+      "actions": [
+        {
+          "name": "main_webhook",
+          "type": "webhook",
+          "parameters": {
+            "action": "$bat"
+          },
+          "result_variable": "$webhook_result_1"
+        }
+      ],
+      "metadata": {
+        "_customization": {
+          "mcr": true
+        }
+      },
+      "conditions": "@bat",
+      "dialog_node": "node_2_1588778082077",
+      "previous_sibling": "response_1_1588774807194"
+    },
+    {
+      "type": "slot",
+      "parent": "node_4_1588774637857",
+      "variable": "$bat",
+      "dialog_node": "slot_10_1588778055607"
+    },
+    {
+      "type": "event_handler",
+      "output": {},
+      "parent": "slot_35_1588803265502",
+      "event_name": "focus",
+      "dialog_node": "handler_37_1588803265502",
+      "previous_sibling": "handler_36_1588803265502"
+    },
+    {
+      "type": "event_handler",
+      "output": {},
+      "parent": "slot_35_1588803265502",
+      "context": {
+        "salle": "@salle"
+      },
+      "conditions": "@salle",
+      "event_name": "input",
+      "dialog_node": "handler_36_1588803265502"
+    },
+    {
+      "type": "slot",
+      "output": {},
+      "parent": "node_26_1588792093999",
+      "variable": "$bat",
+      "dialog_node": "slot_30_1588792093999",
+      "previous_sibling": "handler_33_1588792093999"
+    },
+    {
+      "type": "event_handler",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Il semblerait que le batiment que vous recherchez n'est pas dans ma base de donnée, savez vous sur quel campus se situe votre batiment ? "
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          },
+          {
+            "title": "Listes des campus",
+            "options": [
+              {
+                "label": "Campus ST",
+                "value": {
+                  "input": {
+                    "text": "Campus ST"
+                  }
+                }
+              },
+              {
+                "label": "Campus Victoire",
+                "value": {
+                  "input": {
+                    "text": "Campus Victoire"
+                  }
+                }
+              }
+            ],
+            "response_type": "option"
+          }
+        ]
+      },
+      "parent": "node_26_1588792093999",
+      "event_name": "focus",
+      "dialog_node": "handler_33_1588792093999"
+    },
+    {
+      "type": "standard",
+      "title": "Campus Victoire",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Malheuresement je ne peux vous indiquer les batiments des autres campus mais vous pouvez trouver plus d'information<a href=\"http://vpnum.fr/wp-content/uploads/2019/09/plan_site_Victoire.pdf\" target=\"blank\"> en suivant ce lien</a>"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "node_2_1588836302351",
+      "conditions": "@Campus:(Campus Victoire) && #chercherCampus",
+      "dialog_node": "node_2_1588835486932",
+      "previous_sibling": "node_1_1588835461583"
+    },
+    {
+      "type": "standard",
+      "title": "Campus Carreire ",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Malheuresement je ne peux vous indiquer les batiments des autres campus mais vous pouvez trouver plus d'information<a href=\"https://cartographie.u-bordeaux.fr/Carreire.html\" target=\"blank\"> en suivant ce lien</a>"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "node_2_1588836302351",
+      "conditions": "@Campus:(Campus Carreire) && #chercherCampus",
+      "dialog_node": "node_1_1588835461583",
+      "previous_sibling": "node_5_1588835103494"
+    },
+    {
+      "type": "standard",
+      "title": "Campus ST",
+      "output": {},
+      "parent": "node_2_1588836302351",
+      "actions": [
+        {
+          "name": "main_webhook",
+          "type": "webhook",
+          "parameters": {
+            "action": [
+              "A22",
+              "bat"
+            ]
+          },
+          "result_variable": "$webhook_result_1"
+        }
+      ],
+      "metadata": {
+        "_customization": {
+          "mcr": true
+        }
+      },
+      "conditions": "@Campus:(Campus ST) && #chercherCampus",
+      "dialog_node": "node_27_1588792093999",
+      "previous_sibling": "node_7_1588835306759"
+    },
+    {
+      "type": "standard",
+      "title": "Ville inconue ",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Malheuresement sans cette information je ne pourrais pas vous aider. Vous pouvez joindre l'université sur ce [numéro] pour obtenir plus d'informations "
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "node_2_1588836302351",
+      "conditions": "#chercherCampus",
+      "dialog_node": "node_3_1588836148221",
+      "previous_sibling": "node_2_1588835486932"
+    },
+    {
+      "type": "standard",
+      "title": "Campus B4",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Malheuresement je ne peux vous indiquer les batiments des autres campus mais vous pouvez trouver plus d'information<a href=\"https://cartographie.u-bordeaux.fr/TPG.html\" target=\"blank\"> en suivant ce lien</a>"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "node_2_1588836302351",
+      "conditions": "@Campus:(Campus DESPEG) && #chercherCampus",
+      "dialog_node": "node_5_1588835103494",
+      "previous_sibling": "node_27_1588792093999"
+    },
+    {
+      "type": "standard",
+      "title": "Campus inconu ",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Les campus sont répartie sur diférentes villes et quartier savez vous dans quelle ville se trouve votre batiment ? "
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          },
+          {
+            "title": "Liste des villes ",
+            "options": [
+              {
+                "label": "Talence",
+                "value": {
+                  "input": {
+                    "text": "Campus ST"
+                  }
+                }
+              },
+              {
+                "label": "Pessac ",
+                "value": {
+                  "input": {
+                    "text": "Campus DESPEG"
+                  }
+                }
+              },
+              {
+                "label": "Bordeaux Centre (victoire)",
+                "value": {
+                  "input": {
+                    "text": "Campus Victoire"
+                  }
+                }
+              },
+              {
+                "label": "Bordeaux Pellegrin (CHU) ",
+                "value": {
+                  "input": {
+                    "text": "Campus Carreire"
+                  }
+                }
+              },
+              {
+                "label": "Je ne sais pas ",
+                "value": {
+                  "input": {
+                    "text": "Campus Recherche Aprofondie"
+                  }
+                }
+              }
+            ],
+            "response_type": "option"
+          }
+        ]
+      },
+      "parent": "node_2_1588836302351",
+      "conditions": "@Campus:(Campus inconu) && #chercherCampus",
+      "dialog_node": "node_7_1588835306759"
+    },
+    {
+      "type": "event_handler",
+      "output": {
+        "text": {
+          "values": [
+            "Pouvez me spécifier le batiment que vous cherchez ? "
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "slot_2_1588776816386",
+      "event_name": "focus",
+      "dialog_node": "handler_3_1588776816411",
+      "previous_sibling": "handler_5_1588776816411"
+    },
+    {
+      "type": "event_handler",
+      "output": {},
+      "parent": "slot_2_1588776816386",
+      "context": {
+        "bat": "@bat"
+      },
+      "conditions": "@bat",
+      "event_name": "input",
+      "dialog_node": "handler_5_1588776816411"
+    },
+    {
+      "type": "event_handler",
+      "output": {},
+      "parent": "slot_2_1588778506738",
+      "event_name": "focus",
+      "dialog_node": "handler_10_1588778506765",
+      "previous_sibling": "handler_2_1588778506765"
+    },
+    {
+      "type": "event_handler",
+      "output": {},
+      "parent": "slot_2_1588778506738",
+      "context": {
+        "bat": "@bat"
+      },
+      "conditions": "@bat",
+      "event_name": "input",
+      "dialog_node": "handler_2_1588778506765"
+    },
+    {
+      "type": "response_condition",
+      "output": {
+        "text": {
+          "values": [
+            "L'appel a généré cette erreur : <? output.webhook_error.webhook_result_1 ?>."
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_34_1588803265495",
+      "conditions": "anything_else",
+      "dialog_node": "response_39_1588803265502",
+      "previous_sibling": "response_38_1588803265502"
+    },
+    {
+      "type": "response_condition",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "J'ai trouvé votre salle dans ce batiment <br>"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          },
+          {
+            "title": "Cliquez pour plus d'informations",
+            "options": [
+              {
+                "label": "<?$webhook_result_1.response.rows.get(0).batiment ?> ",
+                "value": {
+                  "input": {
+                    "text": "<?$webhook_result_1.response.rows.get(0).batiment ?> "
+                  }
+                }
+              }
+            ],
+            "description": "",
+            "response_type": "option"
+          }
+        ]
+      },
+      "parent": "node_34_1588803265495",
+      "conditions": "$webhook_result_1",
+      "dialog_node": "response_38_1588803265502",
+      "previous_sibling": "slot_35_1588803265502"
+    },
+    {
+      "type": "slot",
+      "output": {},
+      "parent": "node_34_1588803265495",
+      "variable": "$salle",
+      "dialog_node": "slot_35_1588803265502"
+    },
+    {
+      "type": "response_condition",
+      "output": {
+        "text": {
+          "values": [
+            "L'appel a généré cette erreur : <? output.webhook_error.webhook_result_1 ?>."
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_27_1588792093999",
+      "conditions": "anything_else",
+      "dialog_node": "response_29_1588792093999",
+      "previous_sibling": "response_28_1588792093999"
+    },
+    {
+      "type": "response_condition",
+      "output": {
+        "text": {
+          "values": [
+            "Votre sallet ne semble pas etre dans ma base de donnée, je vous conseil d'aller cherche de l'info au guichet unique au RDC d u batiment A22 <br> <br>Batiment : <?$webhook_result_1.response.rows.get(0).batiment?> Localisation  : <?$webhook_result_1.response.rows.get(0).localisation?> num Acceuil  : <?$webhook_result_1.response.rows.get(0).acceuil?>Salles  : <?$webhook_result_1.response.rows.get(0).salles?>"
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_27_1588792093999",
+      "conditions": "$webhook_result_1",
+      "dialog_node": "response_28_1588792093999"
+    },
+    {
+      "type": "event_handler",
+      "output": {},
+      "parent": "slot_22_1588792093999",
+      "event_name": "focus",
+      "dialog_node": "handler_24_1588792093999",
+      "previous_sibling": "handler_23_1588792093999"
+    },
+    {
+      "type": "event_handler",
+      "output": {},
+      "parent": "slot_22_1588792093999",
+      "context": {
+        "salle": "@bat"
+      },
+      "conditions": "@bat",
+      "event_name": "input",
+      "dialog_node": "handler_23_1588792093999"
+    },
+    {
+      "type": "response_condition",
+      "output": {
+        "text": {
+          "values": [
+            "L'appel a généré cette erreur : <? output.webhook_error.webhook_result_1 ?>."
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_2_1588778082077",
+      "conditions": "anything_else",
+      "dialog_node": "response_4_1588778082087",
+      "previous_sibling": "response_3_1588778082087"
+    },
+    {
+      "type": "response_condition",
+      "output": {
+        "text": {
+          "values": [
+            "Batiment : <?$webhook_result_1.response.rows.get(0).batiment?> Localisation  : <?$webhook_result_1.response.rows.get(0).localisation?> num Acceuil  : <?$webhook_result_1.response.rows.get(0).acceuil?>\nSalles  : <?$webhook_result_1.response.rows.get(0).salles?>\n\n"
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_2_1588778082077",
+      "conditions": "$webhook_result_1",
+      "dialog_node": "response_3_1588778082087"
+    },
+    {
+      "type": "event_handler",
+      "output": {},
+      "parent": "slot_10_1588778055607",
+      "event_name": "focus",
+      "dialog_node": "handler_8_1588778055636",
+      "previous_sibling": "handler_7_1588778055636"
+    },
+    {
+      "type": "event_handler",
+      "output": {},
+      "parent": "slot_10_1588778055607",
+      "context": {
+        "bat": "@bat"
+      },
+      "conditions": "@bat",
+      "event_name": "input",
+      "dialog_node": "handler_7_1588778055636"
+    },
+    {
+      "type": "response_condition",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Votre salles à été trouver dans plusieurs batiments. Cliquez dessus pour afficher plus d'informations\n\n"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "random"
+          },
+          {
+            "title": "batiments : ",
+            "options": [
+              {
+                "label": "<?$webhook_result_1.response.rows.get(0).batiment ?>",
+                "value": {
+                  "input": {
+                    "text": "<?$webhook_result_1.response.rows.get(0).batiment ?>"
+                  }
+                }
+              },
+              {
+                "label": "<?$webhook_result_1.response.rows.get(1).batiment ?>",
+                "value": {
+                  "input": {
+                    "text": "<?$webhook_result_1.response.rows.get(1).batiment ?>"
+                  }
+                }
+              }
+            ],
+            "description": "",
+            "response_type": "option"
+          }
+        ]
+      },
+      "parent": "node_12_1588792093999",
+      "conditions": "$webhook_result_1",
+      "dialog_node": "response_16_1588792093999",
+      "previous_sibling": "slot_13_1588792093999"
+    },
+    {
+      "type": "response_condition",
+      "output": {
+        "text": {
+          "values": [
+            "L'appel a généré cette erreur : <? output.webhook_error.webhook_result_1 ?>."
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_12_1588792093999",
+      "conditions": "anything_else",
+      "dialog_node": "response_17_1588792093999",
+      "previous_sibling": "response_16_1588792093999"
+    },
+    {
+      "type": "slot",
+      "output": {},
+      "parent": "node_12_1588792093999",
+      "variable": "$salle",
+      "dialog_node": "slot_13_1588792093999"
+    },
+    {
+      "type": "standard",
+      "title": "salle request",
+      "output": {},
+      "parent": "node_18_1588792093999",
+      "actions": [
+        {
+          "name": "main_webhook",
+          "type": "webhook",
+          "parameters": {
+            "action": "$salle"
+          },
+          "result_variable": "$webhook_result_1"
+        }
+      ],
+      "metadata": {
+        "_customization": {
+          "mcr": true
+        }
+      },
+      "conditions": "@salle",
+      "dialog_node": "node_19_1588792093999",
+      "previous_sibling": "response_25_1588792093999"
+    },
+    {
+      "type": "response_condition",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Il me semble que le batiment que vous recherchez n'est pas sur le campus Science & Technologies. Savez vous sur quelle campus est situé votre batiment ? "
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          },
+          {
+            "title": "",
+            "options": [
+              {
+                "label": "Campus ST",
+                "value": {
+                  "input": {
+                    "text": ""
+                  }
+                }
+              },
+              {
+                "label": "Campus DESPG",
+                "value": {
+                  "input": {
+                    "text": ""
+                  }
+                }
+              },
+              {
+                "label": "Campus Victoire",
+                "value": {
+                  "input": {
+                    "text": ""
+                  }
+                }
+              },
+              {
+                "label": "Campus Carreire",
+                "value": {
+                  "input": {
+                    "text": ""
+                  }
+                }
+              }
+            ],
+            "response_type": "option"
+          }
+        ]
+      },
+      "parent": "node_18_1588792093999",
+      "disabled": true,
+      "dialog_node": "response_25_1588792093999",
+      "previous_sibling": "slot_22_1588792093999"
+    },
+    {
+      "type": "slot",
+      "output": {},
+      "parent": "node_18_1588792093999",
+      "variable": "$salle",
+      "dialog_node": "slot_22_1588792093999"
+    },
+    {
+      "type": "response_condition",
+      "output": {
+        "text": {
+          "values": [
+            "L'appel a généré cette erreur : <? output.webhook_error.webhook_result_1 ?>."
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_5_1588778456597",
+      "conditions": "anything_else",
+      "dialog_node": "response_7_1588778456607",
+      "previous_sibling": "response_6_1588778456607"
+    },
+    {
+      "type": "response_condition",
+      "output": {
+        "text": {
+          "values": [
+            "Batiment : <?$webhook_result_1.response.rows.get(0).batiment?> <br> Localisation  : <?$webhook_result_1.response.rows.get(0).localisation?> num Acceuil  : <?$webhook_result_1.response.rows.get(0).acceuil?> <br><?$webhook_result_1.response.rows.get(0).image?>"
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_5_1588778456597",
+      "conditions": "$webhook_result_1",
+      "dialog_node": "response_6_1588778456607",
+      "previous_sibling": "slot_2_1588778506738"
+    },
+    {
+      "type": "slot",
+      "parent": "node_5_1588778456597",
+      "variable": "$bat",
+      "dialog_node": "slot_2_1588778506738"
+    },
+    {
+      "type": "folder",
+      "title": "Chercher le campus",
+      "digress_in": "does_not_return",
+      "dialog_node": "node_2_1588836302351",
+      "previous_sibling": "node_11_1588792093990"
+    },
+    {
+      "type": "folder",
+      "title": "Salles",
+      "dialog_node": "node_11_1588792093990",
+      "previous_sibling": "node_3_1588780542194"
+    },
+    {
+      "type": "standard",
+      "title": "Tout le reste",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Je n'ai pas compris, chez vous un batiment ou une salle ? Par exemple \" Ou est le batiment A22 ?\" "
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "conditions": "anything_else",
+      "dialog_node": "Tout le reste",
+      "previous_sibling": "node_2_1588836302351",
+      "disambiguation_opt_out": true
+    },
+    {
+      "type": "folder",
+      "title": "Batiment",
+      "digress_in": "does_not_return",
+      "dialog_node": "node_3_1588780542194",
+      "previous_sibling": "Bienvenue"
+    },
+    {
+      "type": "standard",
+      "title": "Bienvenue",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Bonjour, je peux vous aider à trouver un batiment ou un salle du campus Sciences et Technologies"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "conditions": "welcome",
+      "dialog_node": "Bienvenue"
+    }
+  ],
+  "counterexamples": [
+    {
+      "text": "je cherche le A21"
+    },
+    {
+      "text": "je cherche le C119"
+    }
+  ],
+  "system_settings": {
+    "disambiguation": {
+      "prompt": "Vouliez-vous dire:",
+      "enabled": false,
+      "randomize": true,
+      "max_suggestions": 5,
+      "suggestion_text_policy": "title",
+      "none_of_the_above_prompt": "Aucune de précédent"
+    },
+    "system_entities": {
+      "enabled": true
+    },
+    "human_agent_assist": {
+      "prompt": "Vouliez-vous dire:"
+    }
+  },
+  "learning_opt_out": false,
+  "name": "gsheet",
+  "language": "fr",
+  "description": "Utilise une api pour récuper les datas depuis une feuille google spreadsheet"
+}
