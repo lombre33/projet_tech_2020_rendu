@@ -5,29 +5,6 @@ Se repérer sur le campus
 
 
 
-
-
-Contexte    2
-Technologie    3
-Déploiement/Intégration    3
-Etape 1    3
-Etape 2 :    3
-Intégration web :    3
-Test sur un server node Js local    3
-Import depuis l’interface watson assistant    4
-Etape 3    6
-Etape 4 (Options)    7
-Administration    7
-Administration base de donnée    7
-Administration Watson Assistant    8
-Versioning    8
-Sécurité et RGPD    8
-Confidentialité    8
-Sécurité    8
-Credit    8
-
-
-
 Contexte 
 
 Dans le cadre de l’UE Projet Tech 2019-2020 il a été posé le cadre suivant : La problématique d’orientation sur le campus est réelle pour l’ensemble des usager.e.s. De plus en plus de formations sont partagées entre différents sites, l’offre culturelle et les groupes de travails sont de plus en plus déployer sur l’ensemble des campus amenant ainsi les usager.e.s dans des salles qu’ils ne connaissent pas forcément. 
